@@ -6,13 +6,7 @@ if ($confirmation -eq 'E') {
     exit
 }
 
-$destination = Read-Host "Enter the destination folder path starting from C:\TA\ (blank for exit)"
-if ([string]::IsNullOrWhiteSpace($destination)) {
-    Write-Host "No destination provided. Exiting script."
-    exit
-}
-
-$destinationPath = Join-Path -Path "C:\TA" -ChildPath $destination
+$destinationPath = "C:\TA\Task1"
 if (-not (Test-Path -Path $destinationPath)) {
     $create = Read-Host "The destination path '$destinationPath' does not exist. Press Enter to exit, or type C to create the directory."
     if ($create -eq 'C') {
