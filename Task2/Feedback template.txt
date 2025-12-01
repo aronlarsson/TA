@@ -1,0 +1,22 @@
+Great work! There are a few things that you need to fix:
+
+- ER diagram:
+    -
+
+
+- ER-schema:
+    -
+
+
+- Functional dependencies:
+    -
+
+
+- final-schema:
+    -
+
+- SQL:
+    -
+
+
+Please fix this before you resubmit. If you need help you can come to one of the lab sessions.
