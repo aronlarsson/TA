@@ -1,4 +1,5 @@
-$lastFileInDownloads = Get-ChildItem -Path "C:\Users\Aron\Downloads" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$downloadsPath = (New-Object -ComObject Shell.Application).Namespace('shell:Downloads').Self.Path
+$lastFileInDownloads = Get-ChildItem -Path $downloadsPath | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 
 $confirmation = Read-Host "Press enter to extract '$($lastFileInDownloads.Name)' (enter E to exit)"
 if ($confirmation -eq 'E') {
@@ -6,7 +7,8 @@ if ($confirmation -eq 'E') {
     exit
 }
 
-$taskRootPath = "C:\TA\Task1"
+$taRootPath = (Get-Item .).Parent.FullName
+$taskRootPath = Join-Path $taRootPath "Task1"
 if (-not (Test-Path -Path $taskRootPath)) {
     $create = Read-Host "The destination path '$taskRootPath' does not exist. Press Enter to exit, or type C to create the directory."
     if ($create -eq 'C') {
