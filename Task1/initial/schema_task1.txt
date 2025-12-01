@@ -1,0 +1,43 @@
+-- idnr=national identification number (10 digits) 
+Students(idnr, name, login, program) 
+ 
+Branches(name, program) 
+ 
+Courses(code, name, credits, department) 
+ 
+LimitedCourses(code, capacity) 
+    code → Courses.code 
+ 
+StudentBranches(student, branch, program) 
+    student → Students.idnr 
+    (branch, program) → Branches.(name, program) 
+ 
+Classifications(name) 
+ 
+Classified(course, classification) 
+    course → courses.code 
+    classification → Classifications.name 
+ 
+MandatoryProgram(course, program) 
+    course → Courses.code 
+ 
+MandatoryBranch(course, branch, program) 
+    course → Courses.code 
+    (branch, program) → Branches.(name, program) 
+ 
+RecommendedBranch(course, branch, program) 
+    course → Courses.code 
+    (branch, program) → Branches.(name, program) 
+ 
+Registered(student, course) 
+    student → Students.idnr 
+    course → Courses.code 
+ 
+Taken(student, course, grade) 
+    student → Students.idnr 
+    course → Courses.code 
+ 
+-- position is the absolute position (an integer) 
+WaitingList(student, course, position) 
+    student → Students.idnr 
+    course → Limitedcourses.code 
