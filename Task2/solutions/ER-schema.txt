@@ -1,0 +1,57 @@
+Departments(_dAbbriviation_, dName)
+
+Programs(_pName_, pcode)
+
+HostedBy(_program_, _department_)
+    program → Programs.pName
+    department → Departments.dAbbriviation
+
+Branches(_bname_, _program_)
+    program → Programs.pName
+
+Courses(_ccode_, cname, credits, department)
+    department → Departments.dAbbriviation
+
+Prerequisites(_course_, _pre_)
+    course → Courses.ccode
+    pre → Courses.ccode
+
+LimitedCourses(_course_, capacity)
+    course → Courses.ccode
+
+Classifications(_class_)
+
+Classified(_course_, _classification_)
+    code → Courses.ccode
+    classification → Classifications.class
+
+MandatoryProgram(_course_, _program_)
+    course → Courses.ccode
+    program → Programs.pName
+
+Recommended(_course_, _branch_, _program_)
+    ourse → Courses.ccode
+    (branch, program) → Branches.(bname, program)
+
+MandatoryBranch(_course_, _branch_, _program_)
+    course → Courses.ccode
+    (branch, program) → Branches.(bname, program)
+
+Students(_idnr_, sname, login, program)
+    program → Programs.pName
+
+StudentBranches(_student_, branch, program)
+    student → Students.idnr
+    (branch, program) → Branches.(bname, program)
+
+Taken(_student_, _course_, grade)
+    student → Students.idnr
+    course → Courses.ccode
+
+Registered(_student_, _course_)
+    student → Students.idnr
+    course → Courses.ccode
+
+WaitingList(_student_, _course_, position)
+    student → Students.idnr
+    course → LimitedCourses.course
