@@ -29,7 +29,11 @@ tar -xzf $lastFileInDownloads.FullName -C $taskRootPath
 
 Remove-Item -Path $lastFileInDownloads.FullName
 
-# $groupDircetory = Join-Path $taskRootPath ($lastFileInDownloads.Name -replace '\.tar\.gz', '')
+$groupDircetory = Join-Path $taskRootPath ($lastFileInDownloads.Name -replace '\.tar\.gz', '')
+$erDiagramPath = Join-Path "$groupDircetory" "ER.png"
+Start-Process $erDiagramPath
+# $erDiagramUri = [uri]::EscapeDataString($erDiagramPath)
+# Start-Process "chrome" "$erDiagramUri"
 # Copy-Item -Path "$taskRootPath\initial\runsetup.sql" -Destination (Join-Path $groupDircetory "runsetup.sql") -ErrorAction SilentlyContinue
 # Copy-Item -Path "$taskRootPath\initial\inserts.sql" -Destination (Join-Path $groupDircetory "inserts.sql") -ErrorAction SilentlyContinue
 
