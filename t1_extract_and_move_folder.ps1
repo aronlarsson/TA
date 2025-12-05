@@ -7,7 +7,7 @@ if ($confirmation -eq 'E') {
     exit
 }
 
-$taRootPath = (Get-Item .).Parent.FullName
+$taRootPath = (Get-Item .).FullName
 $taskRootPath = Join-Path $taRootPath "Task1"
 if (-not (Test-Path -Path $taskRootPath)) {
     $create = Read-Host "The destination path '$taskRootPath' does not exist. Press Enter to exit, or type C to create the directory."
