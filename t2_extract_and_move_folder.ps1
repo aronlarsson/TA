@@ -43,6 +43,9 @@ Start-Process "chrome" "$erDiagramSolutionUri"
 # $erDiagramUri = [uri]::EscapeDataString($erDiagramPath)
 # Start-Process "chrome" "$erDiagramUri"
 Copy-Item -Path "$taskRootPath\initial\runsetup.sql" -Destination (Join-Path $groupDircetory "runsetup.sql") -ErrorAction SilentlyContinue
-# Copy-Item -Path "$taskRootPath\initial\inserts.sql" -Destination (Join-Path $groupDircetory "inserts.sql") -ErrorAction SilentlyContinue
+
+$psqlConfig = 'postgresql://postgres:postgres@127.0.0.1'
+$command = "psql -f '$groupDircetory\runsetup.sql' '$psqlConfig'"
+Invoke-Expression $command *> "$groupDircetory\psql_output.log"
 
 Write-Host "Extraction complete and original file deleted."
