@@ -1,5 +1,10 @@
 $downloadsPath = (New-Object -ComObject Shell.Application).Namespace('shell:Downloads').Self.Path
-$lastFileInDownloads = Get-ChildItem -Path $downloadsPath | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$lastFileInDownloads = Get-ChildItem -Path $downloadsPath | Sort-Object LastWriteTime -Descending | Where-Object Name -like '*.tar.gz' | Select-Object -First 1
+
+if (-not $lastFileInDownloads) {
+    Write-Host "No .tar.gz files found in the Downloads folder."
+    exit
+}
 
 $confirmation = Read-Host "Press enter to extract '$($lastFileInDownloads.Name)' (enter E to exit)"
 if ($confirmation -eq 'E') {
