@@ -35,6 +35,7 @@ $sortedSubmissions = Get-ChildItem -Path $tmpSubmissionsPath | Sort-Object -Prop
     } -Descending
 
 
+Write-Host "Submissions sorted by submission time:"
 $sortedSubmissions | ForEach-Object {
     (Get-ChildItem $_ | Where-Object Name -like "FIRE_INFO.txt" | Select-Object -First 1 | Get-Content | Select-String -Pattern '^submitted on \d{4}-\d{2}-\d{2} \d{2}:\d{2}')
 }
