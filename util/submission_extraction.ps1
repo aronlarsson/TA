@@ -40,7 +40,8 @@ $sortedSubmissions = Get-ChildItem -Path $tmpSubmissionsPath | Sort-Object -Prop
     } -Descending
 
 
-$gradingRootPath = (Get-Item .).Parent.FullName
+$gradingRootPath = (Get-Item -Path $PSScriptRoot).Parent.FullName
+Write-Host "Grading root path: $gradingRootPath"
 $studentSubmissionPath = Join-Path $gradingRootPath "Task$taskNumber" 'student_submission'
 if (-not (Test-Path -Path $studentSubmissionPath)) {
     $createDirInput = Read-Host "The destination path '$studentSubmissionPath' does not exist. Press Enter to exit, or type C to create the directory."
@@ -62,10 +63,12 @@ Remove-Item -Path $studentSubmissionPath\* -Recurse -Force -ErrorAction Silently
 # First remove the appended index from the submission name, so that it is not present after moving the submission
 # Pass the moved item through Select-Object and ForEach-Object to access the moved item through $_ variable
 # Use the $_ variable to move the older submission to the OLD folder inside the newer submission
-Rename-Item $sortedSubmissions[0] -NewName ($sortedSubmissions[0].Name -replace '_\d$','') -PassThru | Move-Item -Destination $studentSubmissionPath -PassThru | Select-Object -First 1 | `
-    ForEach-Object { if ($sortedSubmissions.Length -lt 2) { return }; Move-Item $sortedSubmissions[1] -Destination (Join-Path $_.FullName 'OLD') -Force -ErrorAction SilentlyContinue }
+$firstMovedSubmission = Rename-Item $sortedSubmissions[0] -NewName ($sortedSubmissions[0].Name -replace '_\d$','') -PassThru | Move-Item -Destination $studentSubmissionPath -PassThru
+Write-Host $firstMovedSubmission.FullName
 
-
+if ($sortedSubmissions.Length -gt 1) { 
+    Move-Item $sortedSubmissions[1] -Destination (Join-Path $firstMovedSubmission.FullName 'OLD') -Force -ErrorAction SilentlyContinue 
+}
 
 # Clean up temporary submissions directory
 Remove-Item -Path $tmpSubmissionsPath -Recurse -Force -ErrorAction SilentlyContinue
