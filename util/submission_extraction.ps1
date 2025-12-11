@@ -64,7 +64,7 @@ Remove-Item -Path $studentSubmissionPath\* -Recurse -Force -ErrorAction Silently
 # Pass the moved item through Select-Object and ForEach-Object to access the moved item through $_ variable
 # Use the $_ variable to move the older submission to the OLD folder inside the newer submission
 $firstMovedSubmission = Rename-Item $sortedSubmissions[0] -NewName ($sortedSubmissions[0].Name -replace '_\d$','') -PassThru | Move-Item -Destination $studentSubmissionPath -PassThru
-Write-Host $firstMovedSubmission.FullName
+Write-Host "Moved to ${firstMovedSubmission.FullName}"
 
 if ($sortedSubmissions.Length -gt 1) { 
     Move-Item $sortedSubmissions[1] -Destination (Join-Path $firstMovedSubmission.FullName 'OLD') -Force -ErrorAction SilentlyContinue 
