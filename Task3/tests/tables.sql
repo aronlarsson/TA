@@ -1,0 +1,161 @@
+CREATE TABLE Departments(
+name TEXT PRIMARY KEY,
+abbreviation TEXT UNIQUE
+);
+
+CREATE TABLE Programs(
+name TEXT PRIMARY KEY,
+abbreviation TEXT
+);
+
+CREATE TABLE Branches(
+name TEXT,
+program TEXT,
+PRIMARY KEY (name, program),
+FOREIGN KEY (program) REFERENCES Programs
+ON UPDATE CASCADE
+ON DELETE CASCADE
+);
+
+CREATE TABLE Students(
+idnr TEXT PRIMARY KEY,
+name TEXT,
+login TEXT,
+program TEXT,
+UNIQUE (login),
+UNIQUE (idnr,program),
+FOREIGN KEY (program) REFERENCES Programs
+ON UPDATE CASCADE
+ON DELETE RESTRICT
+);
+
+CREATE TABLE Courses(
+code CHAR(6) PRIMARY KEY,
+name TEXT,
+credits FLOAT,
+department TEXT,
+FOREIGN KEY (department) REFERENCES Departments
+ON UPDATE CASCADE
+ON DELETE RESTRICT
+);
+
+CREATE TABLE LimitedCourses(
+code CHAR(6) PRIMARY KEY,
+seats INTEGER,
+FOREIGN KEY (code) REFERENCES Courses ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE Classifications (
+title TEXT PRIMARY KEY
+);
+
+CREATE TABLE Classified (
+course CHAR(6) REFERENCES Courses
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+classification TEXT REFERENCES Classifications
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+PRIMARY KEY (course, classification)
+);
+
+CREATE TABLE HostedBy(
+department TEXT REFERENCES Departments
+ON UPDATE CASCADE
+ON DELETE RESTRICT,
+program TEXT REFERENCES Programs
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+PRIMARY KEY (department,program)
+);
+
+CREATE TABLE StudentBranches(
+student TEXT PRIMARY KEY,
+branch TEXT,
+program TEXT,
+FOREIGN KEY (student,program) REFERENCES Students(idnr,program)
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+FOREIGN KEY (branch,program) REFERENCES Branches(name,program)
+ON UPDATE CASCADE
+ON DELETE RESTRICT
+);
+
+CREATE TABLE Prerequisites(
+course CHAR(6) REFERENCES Courses
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+prerequisite CHAR(6) REFERENCES Courses
+ON UPDATE CASCADE
+ON DELETE RESTRICT,
+PRIMARY KEY (course,prerequisite)
+);
+
+CREATE TABLE MandatoryProgram(
+course CHAR(6) REFERENCES Courses
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+program TEXT REFERENCES Programs
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+PRIMARY KEY (program,course)
+);
+
+CREATE TABLE MandatoryBranch(
+course CHAR(6) REFERENCES Courses
+ON UPDATE CASCADE
+ON DELETE RESTRICT,
+branch TEXT,
+program TEXT,
+PRIMARY KEY (program,branch,course),
+FOREIGN KEY (branch,program) REFERENCES Branches(name,program)
+ON UPDATE CASCADE
+ON DELETE CASCADE
+);
+
+CREATE TABLE RecommendedBranch(
+course CHAR(6),
+branch TEXT,
+program TEXT,
+PRIMARY KEY (program,branch,course),
+FOREIGN KEY (branch,program) REFERENCES Branches(name,program)
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+FOREIGN KEY (course) REFERENCES Courses
+ON UPDATE CASCADE
+ON DELETE RESTRICT
+);
+
+CREATE TABLE Registered(
+student TEXT REFERENCES Students
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+course CHAR(6) REFERENCES Courses
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+PRIMARY KEY (student,course)
+);
+
+CREATE TABLE Taken(
+student TEXT NOT NULL REFERENCES Students
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+course CHAR(6) NOT NULL REFERENCES Courses
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+grade CHAR(1) NOT NULL,
+PRIMARY KEY (student,course),
+CONSTRAINT ValidGrade CHECK (grade IN ('U','3','4','5'))
+);
+
+CREATE TABLE WaitingList(
+student TEXT REFERENCES Students
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+course CHAR(6) REFERENCES LimitedCourses
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+position INT,
+PRIMARY KEY (student,course),
+UNIQUE (course,position)
+);
