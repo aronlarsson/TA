@@ -2,7 +2,7 @@
 $groupFolderName = Invoke-Expression ".\util\submission_extraction.ps1 -TaskNumber 2"
 
 # Directory containing the extracted group submission
-$studentSubmissionPath = Join-Path (Get-Item .).FullName 'Task2\student_submission'
+$studentSubmissionPath = Join-Path (Get-Item $PSScriptRoot).FullName 'Task2\student_submission'
 $groupDirectory = Join-Path $studentSubmissionPath $groupFolderName
 
 # Open the ER diagram and the solution
