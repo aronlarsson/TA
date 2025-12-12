@@ -245,11 +245,15 @@ def main():
     rconn.autocommit = True
     
     tst = Tester(rconn)
-        
-    if active(group_folder):
-        #tst.task2checks(group_folder)
-        tst.task3check(group_folder)
-        print("")
+
+    tst.task3check(group_folder)
+
+    # if active(group_folder):
+    #     #tst.task2checks(group_folder)
+    #     print("Running Task 3 checks:")
+    #     tst.task3check(group_folder)
+    #     print("")
+
 
 # false for submissions that have already been graded
 def active(f):
