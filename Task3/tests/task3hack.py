@@ -94,11 +94,13 @@ class Tester:
             self.clearSchema("reference")
             self.clearSchema("test")
 
+            file_dir = os.path.dirname(os.path.abspath(__file__))
+
             self.setSchema("reference")
-            self.runfile("tables.sql")
-            self.runfile("views.sql")
-            self.runfile("triggers.sql")   
-            self.runfile("inserts.sql")
+            self.runfile(os.path.join(file_dir, "tables.sql"))
+            self.runfile(os.path.join(file_dir, "views.sql"))
+            self.runfile(os.path.join(file_dir, "triggers.sql"))
+            self.runfile(os.path.join(file_dir, "inserts.sql"))
 
             self.setSchema("test")
             self.log.append("*Running tables.sql")
@@ -256,5 +258,7 @@ def active(f):
 
 
 if __name__ == "__main__":
-    main()
-    
+    try:
+        main()
+    except Exception as e:
+        print("Error when running tests: " + str(e))
