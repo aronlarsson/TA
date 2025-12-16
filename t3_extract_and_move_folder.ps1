@@ -5,6 +5,9 @@ $groupFolderName = Invoke-Expression ".\util\submission_extraction.ps1 -TaskNumb
 $studentSubmissionPath = Join-Path (Get-Item $PSScriptRoot).FullName "Task$taskNumber\student_submission"
 $groupDirectory = Join-Path $studentSubmissionPath $groupFolderName
 
+Copy-Item -Path "$PSScriptRoot\Task3\initial\runsetup.sql" -Destination (Join-Path $groupDirectory "runsetup.sql") -ErrorAction SilentlyContinue
+Invoke-Expression "psql -f '$groupDirectory\runsetup.sql' 'postgresql://postgres:postgres@127.0.0.1"
+
 Write-Host ''
 Write-Host 'Running Task 3 hack script...'
 Invoke-Expression "$PSScriptRoot\venv\Scripts\python.exe Task3\tests\task3hack.py '$groupDirectory'"
