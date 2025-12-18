@@ -11,17 +11,3 @@ if ((-not $env:TDA357_GROUP_SUBMISSION_ROOT) -or -not (Test-Path $env:TDA357_GRO
 Write-Host ''
 Write-Host 'Running Task 3 hack script...'
 Invoke-Expression "$env:TDA357_GRADING_ROOT\venv\Scripts\python.exe $env:TDA357_TASK_ROOT\tests\task3hack.py '$env:TDA357_GROUP_SUBMISSION_ROOT'"
-Copy-Item -Path "$env:TDA357_TASK_ROOT\initial\runsetup.sql" -Destination (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT "runsetup.sql") -ErrorAction SilentlyContinue
-Invoke-Expression "psql -f '$env:TDA357_GROUP_SUBMISSION_ROOT\runsetup.sql' 'postgresql://postgres:postgres@127.0.0.1'" | Out-Null
-
-# Show diffs for .txt and .sql files between the groups two submissions
-if (Test-Path (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'OLD')) {
-    Get-ChildItem $env:TDA357_GROUP_SUBMISSION_ROOT | Where-Object Name -match '^*\.(txt|sql)' | ForEach-Object {
-    Write-Host ''
-    $viewDiffInput = Read-Host "Press enter to view $($_.Name) diff (s to skip)"
-    if ($viewDiffInput -eq 's') { 
-        return 
-    }
-    code --wait --diff (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'OLD' $_.Name) (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT $_.Name)
-    }
-}
