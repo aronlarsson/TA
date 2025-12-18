@@ -8,6 +8,11 @@ if ((-not $env:TDA357_GROUP_SUBMISSION_ROOT) -or -not (Test-Path $env:TDA357_GRO
     exit
 }
 
+if ((-not $env:TDA357_GRADING_ROOT) -or -not (Test-Path $env:TDA357_GRADING_ROOT)) {
+    Write-Host "TDA357_GRADING_ROOT is not set or does not exist."
+    exit
+}
+
 Read-Host ("Check the following before trying to run the server:`n" + 
     "- Database config is correct(username/password/dbname)`n" + 
     "- There is no package declaration in the files`n" + 
