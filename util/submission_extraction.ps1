@@ -1,5 +1,5 @@
 if ((-not $env:TDA357_TASK_NUMBER) -or -not (Test-Path $env:TDA357_TASK_NUMBER)) {
-    Write-Host "TDA357_TASK_NUMBER is not set or does not exist."
+    Write-Host "TDA357_TASK_NUMBER is not set or directory does not exist."
     exit
 }
 
