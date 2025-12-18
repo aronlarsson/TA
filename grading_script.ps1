@@ -3,9 +3,9 @@ param(
     [int]$taskNumber
 )
 
-$gradingRoot = (Get-Item $PSScriptRoot).FullName
-$env:TDA357_UTIL_ROOT = (Join-Path $gradingRoot "util")
-$tasksRoot = (Join-Path $gradingRoot "Tasks")
+$env:TDA357_GRADING_ROOT = (Get-Item $PSScriptRoot).FullName
+$env:TDA357_UTIL_ROOT = (Join-Path $env:TDA357_GRADING_ROOT "util")
+$tasksRoot = (Join-Path $env:TDA357_GRADING_ROOT "Tasks")
 $env:TDA357_TASK_NUMBER = $taskNumber
 
 $groupFolderName = Invoke-Expression "$env:TDA357_UTIL_ROOT\submission_extraction.ps1"
