@@ -1,17 +1,16 @@
-param(
-    [int]$TaskNumber
-)
-
-$groupDirectory = (Get-ChildItem (Join-Path (Get-Item $PSScriptRoot).FullName "Task$TaskNumber/student_submission") | Where-Object Name -like "Task ${TaskNumber}_group*" | Select-Object -First 1).FullName
+if ((-not $env:TDA357_GROUP_SUBMISSION_ROOT) -or -not (Test-Path $env:TDA357_GROUP_SUBMISSION_ROOT)) {
+    Write-Host "TDA357_GROUP_SUBMISSION_ROOT is not set or does not exist."
+    exit
+}
 
 # Show diffs for .txt and .sql files between the groups two submissions
-if (Test-Path (Join-Path $groupDirectory 'OLD')) {
-    Get-ChildItem $groupDirectory | Where-Object Name -match '^*\.(txt|sql)' | ForEach-Object {
+if (Test-Path (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'OLD')) {
+    Get-ChildItem $env:TDA357_GROUP_SUBMISSION_ROOT | Where-Object Name -match '^*\.(txt|sql)' | ForEach-Object {
     Write-Host ''
     $viewDiffInput = Read-Host "Press enter to view $($_.Name) diff (s to skip)"
     if ($viewDiffInput -eq 's') { 
         return 
     }
-    code --wait --diff (Join-Path $groupDirectory 'OLD' $_.Name) (Join-Path $groupDirectory $_.Name)
+    code --wait --diff (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'OLD' $_.Name) (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT $_.Name)
     }
 }

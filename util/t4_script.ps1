@@ -1,25 +1,25 @@
-$taskNumber = 4
-$groupFolderName = Invoke-Expression ".\util\submission_extraction.ps1 -TaskNumber $taskNumber"
+if ((-not $env:TDA357_TASK_ROOT) -or -not (Test-Path $env:TDA357_TASK_ROOT)) {
+    Write-Host "TDA357_TASK_ROOT is not set or does not exist."
+    exit
+}
 
-# Directory containing the extracted group submission
-$studentSubmissionPath = Join-Path (Get-Item $PSScriptRoot).FullName "Task$taskNumber\student_submission"
-$groupDirectory = Join-Path $studentSubmissionPath $groupFolderName
+if ((-not $env:TDA357_GROUP_SUBMISSION_ROOT) -or -not (Test-Path $env:TDA357_GROUP_SUBMISSION_ROOT)) {
+    Write-Host "TDA357_GROUP_SUBMISSION_ROOT is not set or does not exist."
+    exit
+}
 
-Copy-Item -Path "$PSScriptRoot\Task4\initial\runsetup.sql" -Destination (Join-Path $groupDirectory "runsetup.sql") -ErrorAction SilentlyContinue
-Invoke-Expression "psql -f '$groupDirectory\runsetup.sql' 'postgresql://postgres:postgres@127.0.0.1'" | Out-Null
-
-
-
+Copy-Item -Path "$env:TDA357_TASK_ROOT\initial\runsetup.sql" -Destination (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT "runsetup.sql") -ErrorAction SilentlyContinue
+Invoke-Expression "psql -f '$env:TDA357_GROUP_SUBMISSION_ROOT\runsetup.sql' 'postgresql://postgres:postgres@127.0.0.1'" | Out-Null
 
 # Show diffs for .txt and .sql files between the groups two submissions
-if (Test-Path (Join-Path $groupDirectory 'OLD')) {
-    Get-ChildItem $groupDirectory | Where-Object Name -match '^*\.(txt|sql)' | ForEach-Object {
+if (Test-Path (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'OLD')) {
+    Get-ChildItem $env:TDA357_GROUP_SUBMISSION_ROOT | Where-Object Name -match '^*\.(txt|sql)' | ForEach-Object {
     Write-Host ''
     $viewDiffInput = Read-Host "Press enter to view $($_.Name) diff (s to skip)"
     if ($viewDiffInput -eq 's') { 
         return 
     }
-    code --wait --diff (Join-Path $groupDirectory 'OLD' $_.Name) (Join-Path $groupDirectory $_.Name)
+    code --wait --diff (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'OLD' $_.Name) (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT $_.Name)
     }
 }
 
