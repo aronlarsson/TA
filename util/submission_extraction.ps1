@@ -1,10 +1,10 @@
-param(
-    [int]$TaskNumber = $(throw "Task number parameter is required.")
-)
-
+if ((-not $env:TDA357_TASK_NUMBER) -or -not (Test-Path $env:TDA357_TASK_NUMBER)) {
+    Write-Host "TDA357_TASK_NUMBER is not set or does not exist."
+    exit
+}
 
 $downloadsPath = (New-Object -ComObject Shell.Application).Namespace('shell:Downloads').Self.Path
-$allSubmissions = Get-ChildItem -Path $downloadsPath | Where-Object Name -like "Task $taskNumber*.tar.gz"
+$allSubmissions = Get-ChildItem -Path $downloadsPath | Where-Object Name -like "Task $env:TDA357_TASK_NUMBER*.tar.gz"
 $lastSubmissionInDownloads = $allSubmissions | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 $groupFolderName = ($lastSubmissionInDownloads.Name -replace '(Task \d_group\d{1,3})( \(\d\))?.tar.gz', '$1')
 
@@ -39,10 +39,7 @@ $sortedSubmissions = Get-ChildItem -Path $tmpSubmissionsPath | Sort-Object -Prop
         ) `
     } -Descending
 
-
-$gradingRootPath = (Get-Item -Path $PSScriptRoot).Parent.FullName
-Write-Host "Grading root path: $gradingRootPath"
-$studentSubmissionPath = Join-Path $gradingRootPath "Task$taskNumber" 'student_submission'
+$studentSubmissionPath = Join-Path $env:TASKS_ROOT "Task$env:TDA357_TASK_NUMBER" 'student_submission'
 if (-not (Test-Path -Path $studentSubmissionPath)) {
     $createDirInput = Read-Host "The destination path '$studentSubmissionPath' does not exist. Press Enter to exit, or type C to create the directory."
     if ($createDirInput -ne 'C') { exit }
