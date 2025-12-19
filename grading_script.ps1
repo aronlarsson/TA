@@ -28,6 +28,8 @@ $env:TDA357_GROUP_SUBMISSION_ROOT = Join-Path $env:TDA357_TASK_ROOT "student_sub
 
 Invoke-Expression "$env:TDA357_UTIL_ROOT\t${taskNumber}_script.ps1"
 
+Write-Host "Setting up database..."
+
 Copy-Item -Path "$env:TDA357_TASK_ROOT\initial\runsetup.sql" -Destination (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT "runsetup.sql") -ErrorAction SilentlyContinue
 Copy-Item -Path "$env:TDA357_TASK_ROOT\initial\inserts.sql" -Destination (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT "inserts.sql") -ErrorAction SilentlyContinue
 Invoke-Expression "psql -f '$env:TDA357_GROUP_SUBMISSION_ROOT\runsetup.sql' 'postgresql://postgres:postgres@127.0.0.1'" | Out-Null
