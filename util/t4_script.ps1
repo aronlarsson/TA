@@ -33,4 +33,8 @@ if (Test-Path (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'PortalConnection.py'
 }
 
 Read-Host "Press enter to terminate the server"
-Stop-Process $process
+Get-CimInstance win32_process -Filter "ParentProcessId = $($process.Id)" | ForEach-Object {
+    Write-Host "Terminating child process Id: $($_.ProcessId)"
+    Stop-Process $_.ProcessId -Force
+}
+Stop-Process $process -Force
