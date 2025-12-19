@@ -3,6 +3,12 @@ if ((-not $env:TDA357_TASK_NUMBER)) {
     exit
 }
 
+if ((-not $env:TDA357_TASK_ROOT) -or -not (Test-Path $env:TDA357_TASK_ROOT)) {
+    Write-Host "TDA357_TASK_ROOT is not set or directory does not exist."
+    exit
+}
+
+
 $downloadsPath = (New-Object -ComObject Shell.Application).Namespace('shell:Downloads').Self.Path
 $allSubmissions = Get-ChildItem -Path $downloadsPath | Where-Object Name -like "Task $env:TDA357_TASK_NUMBER*.tar.gz"
 $lastSubmissionInDownloads = $allSubmissions | Sort-Object LastWriteTime -Descending | Select-Object -First 1
@@ -22,6 +28,7 @@ if ($confirmation -eq 'E') {
 $allSubmissionsFromGroup = $allSubmissions | Where-Object Name -like "$groupFolderName*.tar.gz"
 $tmpSubmissionsPath = Join-Path $downloadsPath 'submission_tmp/'
 
+Remove-Item -Path $tmpSubmissionsPath -Recurse -Force -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Path $tmpSubmissionsPath -Force | Out-Null
 
 for ($i = 0; $i -lt $allSubmissionsFromGroup.Count; $i++) {
@@ -39,7 +46,7 @@ $sortedSubmissions = Get-ChildItem -Path $tmpSubmissionsPath | Sort-Object -Prop
         ) `
     } -Descending
 
-$studentSubmissionPath = Join-Path $env:TASKS_ROOT "Task$env:TDA357_TASK_NUMBER" 'student_submission'
+$studentSubmissionPath = Join-Path $env:TDA357_TASK_ROOT 'student_submission'
 if (-not (Test-Path -Path $studentSubmissionPath)) {
     $createDirInput = Read-Host "The destination path '$studentSubmissionPath' does not exist. Press Enter to exit, or type C to create the directory."
     if ($createDirInput -ne 'C') { exit }
