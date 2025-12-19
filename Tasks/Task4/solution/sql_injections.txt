@@ -1,0 +1,5 @@
+Drop schema on register:
+    CCC111' ); drop schema public cascade; create schema public; create table tmp(idnr text primary key); insert into tmp values ('1
+
+Drop schema on unregister:
+    CCC111'; drop schema public cascade; create schema public; create table tmp(idnr text primary key); delete from tmp where 'x'='a
