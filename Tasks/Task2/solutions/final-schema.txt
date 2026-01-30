@@ -1,0 +1,63 @@
+-- This file will have your final schema. It should be based on ER-schema
+-- but extended with unique constraints and an additional fix. 
+
+Students(_idnr_, name, login, program)
+    program → Programs.name
+    UNIQUE(login)
+
+Departments(_abbreviation_, name)
+    UNIQUE(name)
+
+Programs(_name_, abbreviation)
+
+Branches(_program_, _name_)
+    program → Program.name
+
+Courses(_code_, name, credits, department)
+    department → Departments.abbreviation
+
+LimitedCourses(_code_, capacity)
+    code → Courses.code
+
+StudentBranches(_student_, program, branch)
+    (student, program) → Students.(idnr, program)
+    (program, branch) → Branches.(program, name)
+
+Classifications(_name_)
+
+Classified(_course_, _classification_)
+    course → Courses.code
+    classification → Classifications.name
+
+Prerequisites(_course_, _prerequisite_)
+    course → Courses.code
+    prerequisite → Courses.code
+
+MandatoryProgram(_program_, _course_)
+    program → Programs.name
+    course → Courses.code
+
+MandatoryBranch(_program_, _branch_, _course_)
+    course → Courses.code
+    (program, branch) → Branches.(program, name)
+
+RecommendedBranch(_program_, _branch_, _course_)
+    course → Courses.code
+    (program, branch) → Branches.(program, name)
+
+Registered(_course_, _student_)
+    course → Courses.code
+    student → Students.idnr
+
+Taken(_course_, _student_, grade)
+    course → Courses.code
+    student → Students.idnr
+
+WaitingList(_course_, _student_, position)
+    course → LimitedCourses.code
+    student → Students.idnr
+    UNIQUE(course, position)
+
+ProgramHosts(_department_, _program_)
+    department → Departments.abbreviation
+    program → Programs.name

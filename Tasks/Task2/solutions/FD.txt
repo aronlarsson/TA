@@ -1,0 +1,53 @@
+Domain:
+D(studentIdnr, studentName, login, branchName, programName, programAbbreviation, 
+ courseCode, courseName, credits, departmentName, departmentAbbreviation, capacity, 
+ classification, grade, position)
+
+-- a) Functional dependencies --
+
+departmentName -> departmentAbbr
+departmentAbbr -> departmentName
+programName -> programAbbr
+studentIdnr -> programName, branchName, studentName, login
+login -> studentIdnr
+courseCode -> courseName, departmentAbbr, credits, capacity
+courseCode, studentIdnr -> grade, position
+courseCode, position -> studentIdnr
+
+-- b) BCNF schema --
+
+D1(_departmentAbbr_, departmentName)
+    Unique(departmentName)
+
+D21(_programName_, programAbbr)
+
+D221(_studentIdnr_, login, programName, branchName, studentName)
+    programName -> D21.programName
+    Unique(login)
+
+D2221(_courseCode_, courseName, departmentAbbr, credits, capacity)
+    departmentAbbr -> D1.departmentAbbr
+
+D22221(_studentIdnr_, _courseCode_, grade, position)
+    studentIdnr -> D221.studentIdnr
+    courseCode -> D2221.courseCode
+    UNIQUE(courseCode, position)
+
+D22222(_studentIdnr_, _courseCode_, _classification_)
+    studentIdnr -> D221.studentIdnr
+    courseCode -> D2221.courseCode
+
+-- c) 4NF additions --
+
+MVD identified: courseCode ->> classification
+
+REMOVED
+D22222(studentIdnr, courseCode, classification)
+
+ADDED
+R1(_courseCode_, _classification_)
+    courseCode -> D2221.courseCode
+
+R2(_courseCode_, _studentIdnr_)
+    courseCode -> D2221.courseCode
+    studentIdnr -> D221.studentIdnr
