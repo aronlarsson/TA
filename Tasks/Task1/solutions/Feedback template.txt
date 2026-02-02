@@ -1,0 +1,15 @@
+Great work! There are a few things that you need to fix:
+
+- Tables:
+    -
+
+
+- Views:
+    -
+
+
+- Other:
+    -
+
+
+Please fix this before you resubmit. If you need help you can come to one of the lab sessions.

@@ -1,0 +1,4 @@
+/Tasks/Task*/student_submission/
+/venv/
+settings.json
+*.pyc
