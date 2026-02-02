@@ -10,11 +10,21 @@ if ((-not $env:TDA357_TASK_ROOT) -or -not (Test-Path $env:TDA357_TASK_ROOT)) {
 
 
 $downloadsPath = (New-Object -ComObject Shell.Application).Namespace('shell:Downloads').Self.Path
+
+if (-not $allSubmissions) {
+    Get-ChildItem -Path $downloadsPath | Where-Object Name -like "Part $env:TDA357_TASK_NUMBER*.tar.gz" | ForEach-Object {
+        $oldName = $_.Name
+        $newName = $oldName -replace 'Part', 'Task'
+        $_ | Rename-Item -NewName $newName -PassThru | Write-Host
+    }
+}
 $allSubmissions = Get-ChildItem -Path $downloadsPath | Where-Object Name -like "Task $env:TDA357_TASK_NUMBER*.tar.gz"
+
 $lastSubmissionInDownloads = $allSubmissions | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 $groupFolderName = ($lastSubmissionInDownloads.Name -replace '(Task \d_group\d{1,3})( \(\d\))?.tar.gz', '$1')
 
 if (-not $lastSubmissionInDownloads) {
+    
     Write-Host "No .tar.gz files found in the Downloads folder."
     exit
 }
@@ -34,6 +44,11 @@ New-Item -ItemType Directory -Path $tmpSubmissionsPath -Force | Out-Null
 for ($i = 0; $i -lt $allSubmissionsFromGroup.Count; $i++) {
     $submission = $allSubmissionsFromGroup[$i]
     tar -xzf $submission.FullName -C $tmpSubmissionsPath
+    Get-ChildItem -Path $tmpSubmissionsPath | Where-Object Name -like "Part $env:TDA357_TASK_NUMBER*" | ForEach-Object {
+        $oldName = $_.Name
+        $newName = $oldName -replace 'Part', 'Task'
+        $_ | Rename-Item -NewName $newName -PassThru | Write-Host
+    }
     Rename-Item -Path (Join-Path $tmpSubmissionsPath $groupFolderName) -NewName "${groupFolderName}_$i"
     Remove-Item -Path $submission.FullName
 }
