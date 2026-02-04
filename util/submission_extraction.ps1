@@ -15,7 +15,7 @@ if (-not $allSubmissions) {
     Get-ChildItem -Path $downloadsPath | Where-Object Name -like "Part $env:TDA357_TASK_NUMBER*.tar.gz" | ForEach-Object {
         $oldName = $_.Name
         $newName = $oldName -replace 'Part', 'Task'
-        $_ | Rename-Item -NewName $newName -PassThru | Write-Host
+        $_ | Rename-Item -NewName $newName -PassThru | Write-Debug
     }
 }
 $allSubmissions = Get-ChildItem -Path $downloadsPath | Where-Object Name -like "Task $env:TDA357_TASK_NUMBER*.tar.gz"
@@ -47,7 +47,7 @@ for ($i = 0; $i -lt $allSubmissionsFromGroup.Count; $i++) {
     Get-ChildItem -Path $tmpSubmissionsPath | Where-Object Name -like "Part $env:TDA357_TASK_NUMBER*" | ForEach-Object {
         $oldName = $_.Name
         $newName = $oldName -replace 'Part', 'Task'
-        $_ | Rename-Item -NewName $newName -PassThru | Write-Host
+        $_ | Rename-Item -NewName $newName -PassThru | Write-Debug
     }
     Rename-Item -Path (Join-Path $tmpSubmissionsPath $groupFolderName) -NewName "${groupFolderName}_$i"
     Remove-Item -Path $submission.FullName
