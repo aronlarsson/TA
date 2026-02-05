@@ -7,3 +7,6 @@ if ((-not $env:TDA357_GROUP_SUBMISSION_ROOT) -or -not (Test-Path $env:TDA357_GRO
     Write-Host "TDA357_GROUP_SUBMISSION_ROOT is not set or directory does not exist."
     exit
 }
+
+code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'tables.sql')
+code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'views.sql')
