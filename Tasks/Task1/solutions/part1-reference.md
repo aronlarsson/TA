@@ -52,11 +52,11 @@ still need to be performed:
 When grading the PathToGraduation view, every student that doesn't
 qualify in the automatic test has a specific purpose, listed here:
 
--- Student 0123456789: doesn't belong to any branch
--- Student 1234567890: hasn't taken the mandatory courses on their branch
--- Student 2345678901: hasn't taken the mandatory courses on their program
--- Student 3456789012: doesn't have enough math credits
--- Student 5678901234: hasn't taken any seminar
--- Student 6789012345: doesn't have enough credits from the recommended courses of his branch
--- Student 7890123456: is qualified
+- Student 0123456789: doesn't belong to any branch
+- Student 1234567890: hasn't taken the mandatory courses on their branch
+- Student 2345678901: hasn't taken the mandatory courses on their program
+- Student 3456789012: doesn't have enough math credits
+- Student 5678901234: hasn't taken any seminar
+- Student 6789012345: doesn't have enough credits from the recommended courses of his branch
+- Student 7890123456: is qualified
 
