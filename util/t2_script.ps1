@@ -28,4 +28,5 @@ Start-Process "chrome" "$erDiagramSolutionUri"
 
 code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'ER-schema.txt')
 code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'FD.txt')
+code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'final-schema.txt')
 code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'tables.sql')
