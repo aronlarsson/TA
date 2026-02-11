@@ -8,9 +8,20 @@ if ((-not $env:TDA357_GROUP_SUBMISSION_ROOT) -or -not (Test-Path $env:TDA357_GRO
     exit
 }
 
-# Open the ER diagram and the solution
-$erDiagramPath = Join-Path "$env:TDA357_GROUP_SUBMISSION_ROOT" "ER.png"
-Start-Process $erDiagramPath
+# Open the ER diagram and the 
+$erFileEndings = '.png', '.jpg', '.gif', '.pdf'
+foreach ($fileEnding in $erFileEndings) {
+    $erDiagramPath = Join-Path "$env:TDA357_GROUP_SUBMISSION_ROOT" "ER$fileEnding"
+    if (Test-Path $erDiagramPath) {
+        break
+    } 
+    $erDiagramPath = $null
+}
+if (-not $erDiagramPath) {
+    Write-Host 'ER diagram not found, skipping opening student diagram'
+} else {
+    Start-Process $erDiagramPath
+}
 $erDiagramSolutionPath = Join-Path $env:TDA357_TASK_ROOT "solutions\ER.png"
 $erDiagramSolutionUri = [uri]::EscapeDataString($erDiagramSolutionPath)
 Start-Process "chrome" "$erDiagramSolutionUri"
