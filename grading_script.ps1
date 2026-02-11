@@ -30,8 +30,13 @@ if (-not $groupFolderName) {
 
 $env:TDA357_GROUP_SUBMISSION_ROOT = Join-Path $env:TDA357_TASK_ROOT "student_submission" $groupFolderName
 
-Copy-Item -Path "$env:TDA357_TASK_ROOT\initial\runsetup.sql" -Destination (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT "runsetup.sql") -ErrorAction SilentlyContinue
-Copy-Item -Path "$env:TDA357_TASK_ROOT\initial\inserts.sql" -Destination (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT "inserts.sql") -ErrorAction SilentlyContinue
+$setupFiles = 'runsetup.sql',  'inserts.sql'
+foreach ($file in $setupFiles) {
+    $destination = (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT $file)
+    if (-not (Test-Path $destination)) {
+        Copy-Item -Path "$env:TDA357_TASK_ROOT\initial\$file" -Destination (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT $file) -ErrorAction SilentlyContinue
+    }
+}
 
 Invoke-Expression "$env:TDA357_UTIL_ROOT\get_diff.ps1"
 
