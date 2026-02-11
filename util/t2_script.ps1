@@ -25,3 +25,7 @@ if (-not $erDiagramPath) {
 $erDiagramSolutionPath = Join-Path $env:TDA357_TASK_ROOT "solutions\ER.png"
 $erDiagramSolutionUri = [uri]::EscapeDataString($erDiagramSolutionPath)
 Start-Process "chrome" "$erDiagramSolutionUri"
+
+code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'ER-schema.txt')
+code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'FD.txt')
+code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'tables.sql')
