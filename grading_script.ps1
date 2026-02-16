@@ -40,6 +40,8 @@ foreach ($file in $setupFiles) {
 
 Invoke-Expression "$env:TDA357_UTIL_ROOT\get_diff.ps1"
 
+Read-Host 'Press Enter to continue running the task script'
+
 Invoke-Expression "$env:TDA357_UTIL_ROOT\t${taskNumber}_script.ps1"
 
 Write-Host "Setting up database from scratch..."
