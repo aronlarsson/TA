@@ -112,7 +112,7 @@ For example, there is a missing UNIQUE constraint in WaitingList instead the con
 
 * Make sure the MVD make sense and that they have at least one
   (probably `course ->> clasification` or 
-  `courseCode studentIdnr ->> grade/position) 
+  `courseCode studentIdnr ->> grade/position`) 
 
 # FD Schema
 
