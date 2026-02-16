@@ -38,10 +38,6 @@ foreach ($file in $setupFiles) {
     }
 }
 
-Invoke-Expression "$env:TDA357_UTIL_ROOT\get_diff.ps1"
-
-Read-Host 'Press Enter to continue running the task script'
-
 Invoke-Expression "$env:TDA357_UTIL_ROOT\t${taskNumber}_script.ps1"
 
 Write-Host "Setting up database from scratch..."
@@ -49,6 +45,8 @@ Write-Host "Setting up database from scratch..."
 Invoke-Expression "psql -f '$env:TDA357_GROUP_SUBMISSION_ROOT\runsetup.sql' 'postgresql://postgres:postgres@127.0.0.1'" | Out-File "$env:TDA357_GROUP_SUBMISSION_ROOT\runsetup_output.txt"
 
 code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'runsetup_output.txt')
+
+Invoke-Expression "$env:TDA357_UTIL_ROOT\get_diff.ps1"
 
 Get-ChildItem env:* | Where-Object { $_.Name -like 'TDA357_*' } | ForEach-Object {
     Set-Item "env:$($_.Name)" $null
