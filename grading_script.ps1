@@ -48,6 +48,7 @@ Write-Host "Setting up database from scratch..."
 
 Invoke-Expression "psql -f '$env:TDA357_GROUP_SUBMISSION_ROOT\runsetup.sql' 'postgresql://postgres:postgres@127.0.0.1'" | Out-File "$env:TDA357_GROUP_SUBMISSION_ROOT\runsetup_output.txt"
 
+code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'runsetup_output.txt')
 
 Get-ChildItem env:* | Where-Object { $_.Name -like 'TDA357_*' } | ForEach-Object {
     Set-Item "env:$($_.Name)" $null
