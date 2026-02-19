@@ -30,3 +30,9 @@ code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'ER-schema.txt')
 code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'FD.txt')
 code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'final-schema.txt')
 code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'tables.sql')
+
+$viewDiffInput = Read-Host "Press enter to view diff between ER-schema and final-schema (s to skip)"
+if ($viewDiffInput -eq 's') { 
+    return 
+}
+code --diff (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'ER-schema.txt') (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'final-schema.txt')
