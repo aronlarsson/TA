@@ -31,6 +31,8 @@ if ((-not $env:TDA357_GRADING_ROOT) -or -not (Test-Path $env:TDA357_GRADING_ROOT
     $env:TDA357_GRADING_ROOT = $gradingRoot
 }
 
-Write-Host ''
-Write-Host 'Running Task 3 hack script...'
-Invoke-Expression "$env:TDA357_GRADING_ROOT\venv\Scripts\python.exe $env:TDA357_TASK_ROOT\tests\task3hack.py '$env:TDA357_GROUP_SUBMISSION_ROOT'"
+# Write-Host ''
+# Write-Host 'Running Task 3 hack script...'
+# Invoke-Expression "$env:TDA357_GRADING_ROOT\venv\Scripts\python.exe $env:TDA357_TASK_ROOT\tests\task3hack.py '$env:TDA357_GROUP_SUBMISSION_ROOT'"
+
+code -r (Join-Path $env:TDA357_GROUP_SUBMISSION_ROOT 'triggers.sql')
