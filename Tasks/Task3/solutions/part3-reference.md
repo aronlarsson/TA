@@ -5,24 +5,24 @@ Remember: in your comments, give hints to the problem but not the exact solution
 In this part, the students are told to previde a series of inserts on
 which Fire will run the followin tests:
 
-#1: valid registration to an unlimited course
-#2: valid registration to a limited course (in WaitingList position 1)
-#3: valid registration to the same limited course (in WaitingList position 2)
-#4: valid registration to a limited course with place
-#5: valid registration to the same limited course (in WaitingList position 1)
-#6: valid registration to an unlimited course
-#7: failed registration (course already passed)
-#8: failed registration (student already registered)
-#9: failed registration (student already in waiting list)
-#10: failed registration (student missing prereq)
-#11: failed registration (student missing prereq)
-#12: unregister a student from all courses, no change in waiting list
-#13: valid registration to a limited course (in WaitingList position 3)
-#14: unregister from waiting list, requires updating position in waiting list
-#15: unregister from course, requires moving from waiting lis and
+1. valid registration to an unlimited course
+2. valid registration to a limited course (in WaitingList position 1)
+3. valid registration to the same limited course (in WaitingList position 2)
+4. valid registration to a limited course with place
+5. valid registration to the same limited course (in WaitingList position 1)
+6. valid registration to an unlimited course
+7. failed registration (course already passed)
+8. failed registration (student already registered)
+9. failed registration (student already in waiting list)
+10. failed registration (student missing prereq)
+11. failed registration (student missing prereq)
+12. unregister a student from all courses, no change in waiting list
+13. valid registration to a limited course (in WaitingList position 3)
+14. unregister from waiting list, requires updating position in waiting list
+15. unregister from course, requires moving from waiting lis and
         updating positions in waiting list
-#16: same here, waiting list becomes empty for the course
-#17: valid registration to an unlimited course
+16. same here, waiting list becomes empty for the course
+17. valid registration to an unlimited course
 
 
 ## Failed test
