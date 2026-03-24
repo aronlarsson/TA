@@ -1,0 +1,73 @@
+Answers file: Binary search
+===========================
+
+Replace the placeholders "..." with your answers.
+
+
+Your very first task
+--------------------
+
+1. What is your name? ...
+
+2. What is your favourite colour? ...
+
+
+Part 3. Test your implementation
+--------------------------------
+
+3. How many comparisons does firstIndexOf use at most for an array of:
+
+a) 10 elements? 4
+b) 100 elements? 7
+c) 1,000 elements? 10
+d) 1,000,000 elements? 20
+
+Note:
+The student's algorithm can differ by 1-3 comparisons, both here and below.
+The important thing is the growth rate.
+
+
+Part 4. Reason about your implementation
+----------------------------------------
+
+4. How many comparisons would firstIndexOf need for 1,000,000,000,000 elements?
+   (This is way too big for your computer's memory!)
+
+Every comparison cuts the search range in half.
+Since log_2(1,000,000,000,000) is just below 40, we need 40 comparisons.
+
+
+Alternative answer:
+The number of comparisons is logarithmic in the array size.
+Squaring the array size doubles the needed number of comparisons.
+So from 20 comparisons for 1,000,000, we get 40 comparisons for 1,000,000,000,000.
+
+Appendix: general information
+-----------------------------
+
+A1. How many hours did you spend on the assignment?
+
+...
+
+
+A2. Do you know of any bugs or limitations?
+
+...
+
+
+A3. Did you collaborate with any other students on this lab?
+    If so, write with whom and in what way you collaborated.
+    Also list any resources (including the web) you have used in creating your design.
+
+...
+
+
+A4. Did you encounter any serious problems?
+
+...
+
+
+A5. Do you have other comments or feedback?
+
+...
+
