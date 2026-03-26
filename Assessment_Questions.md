@@ -14,3 +14,7 @@
     - High is inclusive, so it might be the case that the value we are searching for is located at index high, which means that the value will be found at that index. If the value doesn't exist, it will try to move either high or low past the other, which means the value could not be found.
     - or
     - High is exclusive, which means that if low moved to high it has moved outside the search range, so the loop/recursion will break and return something indicating that the value wasn't found.
+
+- How do you ensure that firstIndexOf finds the first index and not just any index?
+    - Save the current best index, continue searching to the left of the currently found one.
+    - Possibly check **once** if the value to the left is also what we are looking for.
